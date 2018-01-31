@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
+<code>#include &lt;signal.h&gt;</code><br />
 </div>
 <p><a href="libcomcom_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -93,6 +94,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Functions</h2></td></tr>
 <tr class="memitem:a0e6b15d70fe1e739ba88a63672a6b133"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libcomcom_8h.html#a0e6b15d70fe1e739ba88a63672a6b133">libcomcom_init</a> (void)</td></tr>
 <tr class="separator:a0e6b15d70fe1e739ba88a63672a6b133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4e16404f99a99ddec86f2601ce8a220"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libcomcom_8h.html#ab4e16404f99a99ddec86f2601ce8a220">libcomcom_init2</a> (struct sigaction *old)</td></tr>
+<tr class="separator:ab4e16404f99a99ddec86f2601ce8a220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedcb4a01d5ba61d8aa3a88e22475094c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libcomcom_8h.html#aedcb4a01d5ba61d8aa3a88e22475094c">libcomcom_init_stratum</a> (void)</td></tr>
+<tr class="separator:aedcb4a01d5ba61d8aa3a88e22475094c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4556dc7f71b330a6826763673b9cddb4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libcomcom_8h.html#a4556dc7f71b330a6826763673b9cddb4">libcomcom_run_command</a> (const char *input, size_t input_len, const char **output, size_t *output_len, const char *file, char *const argv[], char *const envp[], int timeout)</td></tr>
 <tr class="separator:a4556dc7f71b330a6826763673b9cddb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1f7172fef9b180dacb5645863ecde4c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="libcomcom_8h.html#aa1f7172fef9b180dacb5645863ecde4c">libcomcom_destroy</a> (void)</td></tr>
@@ -139,7 +144,46 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initialize the library. Call it before <a class="el" href="libcomcom_8h.html#a4556dc7f71b330a6826763673b9cddb4">libcomcom_run_command()</a>. </p><dl class="section return"><dt>Returns</dt><dd>0 on success and -1 on error (also sets <code>errno</code>). </dd></dl>
+<p>Initialize the library. Call it before <a class="el" href="libcomcom_8h.html#a4556dc7f71b330a6826763673b9cddb4">libcomcom_run_command()</a>. Note that this erases the old SIGCHLD handler (if any). </p><dl class="section return"><dt>Returns</dt><dd>0 on success and -1 on error (also sets <code>errno</code>). </dd></dl>
+
+</div>
+</div>
+<a id="ab4e16404f99a99ddec86f2601ce8a220"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4e16404f99a99ddec86f2601ce8a220">&#9670;&nbsp;</a></span>libcomcom_init2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int libcomcom_init2 </td>
+          <td>(</td>
+          <td class="paramtype">struct sigaction *&#160;</td>
+          <td class="paramname"><em>old</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initialize the library. Call it before <a class="el" href="libcomcom_8h.html#a4556dc7f71b330a6826763673b9cddb4">libcomcom_run_command()</a>. The <code>old</code> signal action is stored internally (and restored by <a class="el" href="libcomcom_8h.html#aa1f7172fef9b180dacb5645863ecde4c">libcomcom_destroy()</a> or <a class="el" href="libcomcom_8h.html#a24e5536c06f08d4593300abcc5be5ae2">libcomcom_terminate()</a>). The old signal handler (the one obtained from <code>old</code> variable) is also called from our SIGCHLD handler. </p><dl class="section return"><dt>Returns</dt><dd>0 on success and -1 on error (also sets <code>errno</code>). </dd></dl>
+
+</div>
+</div>
+<a id="aedcb4a01d5ba61d8aa3a88e22475094c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedcb4a01d5ba61d8aa3a88e22475094c">&#9670;&nbsp;</a></span>libcomcom_init_stratum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int libcomcom_init_stratum </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initialize the library. Call it before <a class="el" href="libcomcom_8h.html#a4556dc7f71b330a6826763673b9cddb4">libcomcom_run_command()</a>. This function is like <a class="el" href="libcomcom_8h.html#ab4e16404f99a99ddec86f2601ce8a220">libcomcom_init2()</a>, but the old SIGCHLD signal handler is obtained automatically (by sigaction() library function).</p>
+<p>WARNING: If before calling this SIGCHLD handler was set by signal() (not by sigaction()), then this function does not work (leads to undefined behavior)! </p><dl class="section return"><dt>Returns</dt><dd>0 on success and -1 on error (also sets <code>errno</code>). </dd></dl>
 
 </div>
 </div>
@@ -281,7 +325,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 28 2018 06:13:01 for LibComCom by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 31 2018 13:27:09 for LibComCom by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
